@@ -1,33 +1,28 @@
 {
-    "author": {
-        "name": "Datalanche, Inc.",
-        "url": "https://www.datalanche.com"
-    },
-    "name": "pg-format",
-    "license": "MIT",
-    "homepage": "https://github.com/datalanche/node-pg-format",
-    "description": "Node.js implementation of PostgreSQL's format() to safely create dynamic SQL queries.",
-    "version": "1.0.4",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/datalanche/node-pg-format.git"
-    },
-    "main": "lib/index.js",
-    "directories": {
-        "lib": "./lib"
-    },
-    "engines": {
-        "node": ">=4.0"
-    },
-    "dependencies": {
-    },
-    "devDependencies": {
-        "istanbul": "0.4.2",
-        "mocha": "2.4.5",
-        "should": "8.2.1"
-    },
-    "scripts": {
-        "test": "node ./node_modules/mocha/bin/mocha",
-        "cover-test": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha"
-    }
+  "name": "pg-format",
+  "version": "1.0.4",
+  "description": "Node.js implementation of PostgreSQL's format() to safely create dynamic SQL queries.",
+  "homepage": "https://github.com/Airthium/node-pg-format",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Airthium/node-pg-format.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Airthium",
+    "url": "https://github.com/orgs/Airthium/people"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "./lib"
+  },
+  "scripts": {
+    "test": "jest --config config/jest.config.js"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.2.126",
+    "@swc/jest": "^0.2.15",
+    "jest": "^27.4.5"
+  }
 }
