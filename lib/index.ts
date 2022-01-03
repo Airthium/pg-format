@@ -1,4 +1,3 @@
-// reserved Postgres words
 import reservedMap from './reserved'
 
 const fmtPattern = {
@@ -7,33 +6,60 @@ const fmtPattern = {
   string: 's'
 }
 
-// convert to Postgres default ISO 8601 format
-const formatDate = (date) => {
+/**
+ * Convert to Postgres default ISO 8601 format
+ * @param date JS format date
+ * @returns ISO 8601 format date
+ */
+const formatDate = (date: string): string => {
   date = date.replace('T', ' ')
   date = date.replace('Z', '+00')
   return date
 }
 
-const isReserved = (value) => {
+/**
+ * Check if it is a reserved word
+ * @param value Value
+ * @returns Reserved
+ */
+const isReserved = (value: string): boolean => {
   if (reservedMap[value.toUpperCase()]) return true
 
   return false
 }
 
-const arrayToList = (useSpace, array, formatter) => {
-  let sql = ''
+/**
+ * Convert array to Postgres list
+ * @param useSpace Use space
+ * @param arrayA Array
+ * @param formatter Formatter
+ * @returns SQL list
+ */
+const arrayToList = (
+  useSpace: boolean,
+  array: any[],
+  formatter: Function
+): string => {
+  let sql = useSpace ? ' ' : ''
 
-  sql += useSpace ? ' (' : '('
-  for (let i = 0; i < array.length; i++) {
-    sql += (i === 0 ? '' : ', ') + formatter(array[i])
+  sql += '('
+  for (let index = 0; index < array.length; index++) {
+    const item = array[index]
+    sql += index === 0 ? '' : ', '
+    sql += formatter(item)
   }
   sql += ')'
 
   return sql
 }
 
-// Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
-const quoteIdent = (value) => {
+/**
+ * Quote ident
+ * Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
+ * @param value Value
+ * @returns Quoted ident
+ */
+const quoteIdent = (value?: any): string => {
   if (value === undefined || value === null) {
     throw new Error('SQL identifier cannot be null or undefined')
   } else if (value === false) {
@@ -71,23 +97,25 @@ const quoteIdent = (value) => {
   }
 
   let quoted = '"'
-
   for (const id of ident) {
-    const c = id
-    if (c === '"') {
-      quoted += c + c
+    if (id === '"') {
+      quoted += id + id
     } else {
-      quoted += c
+      quoted += id
     }
   }
-
   quoted += '"'
 
   return quoted
 }
 
-// Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
-const quoteLiteral = (value) => {
+/**
+ * Quote literal
+ * Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
+ * @param value Value
+ * @returns Quoted literal
+ */
+const quoteLiteral = (value?: any): string => {
   let literal = null
   let explicitCast = null
 
@@ -103,11 +131,12 @@ const quoteLiteral = (value) => {
     return "E'\\\\x" + value.toString('hex') + "'"
   } else if (Array.isArray(value) === true) {
     const temp = []
-    for (let i = 0; i < value.length; i++) {
-      if (Array.isArray(value[i]) === true) {
-        temp.push(arrayToList(i !== 0, value[i], quoteLiteral))
+    for (let index = 0; index < value.length; index++) {
+      const val = value[index]
+      if (Array.isArray(val) === true) {
+        temp.push(arrayToList(index !== 0, val, quoteLiteral))
       } else {
-        temp.push(quoteLiteral(value[i]))
+        temp.push(quoteLiteral(val))
       }
     }
     return temp.toString()
@@ -122,17 +151,15 @@ const quoteLiteral = (value) => {
   let quoted = "'"
 
   for (const lit of literal) {
-    const c = lit
-    if (c === "'") {
-      quoted += c + c
-    } else if (c === '\\') {
-      quoted += c + c
+    if (lit === "'") {
+      quoted += lit + lit
+    } else if (lit === '\\') {
+      quoted += lit + lit
       hasBackslash = true
     } else {
-      quoted += c
+      quoted += lit
     }
   }
-
   quoted += "'"
 
   if (hasBackslash === true) {
@@ -146,7 +173,12 @@ const quoteLiteral = (value) => {
   return quoted
 }
 
-const quoteString = (value) => {
+/**
+ * Quote string
+ * @param value Value
+ * @returns QUoted string
+ */
+const quoteString = (value?: any): string => {
   if (value === undefined || value === null) {
     return ''
   } else if (value === false) {
@@ -159,12 +191,13 @@ const quoteString = (value) => {
     return '\\x' + value.toString('hex')
   } else if (Array.isArray(value) === true) {
     const temp = []
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] !== null && value[i] !== undefined) {
-        if (Array.isArray(value[i]) === true) {
-          temp.push(arrayToList(i !== 0, value[i], quoteString))
+    for (let index = 0; index < value.length; index++) {
+      const val = value[index]
+      if (val !== null && val !== undefined) {
+        if (Array.isArray(val) === true) {
+          temp.push(arrayToList(index !== 0, val, quoteString))
         } else {
-          temp.push(quoteString(value[i]))
+          temp.push(quoteString(val))
         }
       }
     }
@@ -176,34 +209,21 @@ const quoteString = (value) => {
   return value.toString().slice(0) // return copy
 }
 
-const config = (cfg) => {
-  // default
-  fmtPattern.ident = 'I'
-  fmtPattern.literal = 'L'
-  fmtPattern.string = 's'
-
-  if (cfg && cfg.pattern) {
-    if (cfg.pattern.ident) {
-      fmtPattern.ident = cfg.pattern.ident
-    }
-    if (cfg.pattern.literal) {
-      fmtPattern.literal = cfg.pattern.literal
-    }
-    if (cfg.pattern.string) {
-      fmtPattern.string = cfg.pattern.string
-    }
-  }
-}
-
-const format = (fmt, ...parameters) => {
+/**
+ * Format
+ * @param fmt
+ * @param parameters Parameters
+ * @returns Query
+ */
+const format = (fmt: string, ...parameters: string[]): string => {
   let index = 0
 
-  let re = '%(%|(\\d+\\$)?['
-  re += fmtPattern.ident
-  re += fmtPattern.literal
-  re += fmtPattern.string
-  re += '])'
-  re = new RegExp(re, 'g')
+  let regex = '%(%|(\\d+\\$)?['
+  regex += fmtPattern.ident
+  regex += fmtPattern.literal
+  regex += fmtPattern.string
+  regex += '])'
+  const re = new RegExp(regex, 'g')
 
   return fmt.replace(re, (_, type) => {
     if (type === '%') {

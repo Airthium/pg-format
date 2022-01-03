@@ -1,6 +1,6 @@
-//
-// PostgreSQL reserved words
-//
+/**
+ * PostgreSQL reserved words
+ */
 export default {
   AES128: true,
   AES256: true,

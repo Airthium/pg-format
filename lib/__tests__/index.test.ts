@@ -1,45 +1,33 @@
-import format, { config, ident, literal, string, withArray } from '..'
+import format from '..'
 
 describe('index', () => {
-  test('format', () => {
+  const testDate = new Date(Date.UTC(2012, 11, 14, 13, 6, 43, 152))
+  const testArray = ['abc', 1, true, null, testDate]
+  const testIdentArray = ['abc', 'AbC', 1, true, testDate]
+  const testObject = { a: 1, b: 2 }
+  const testNestedArray = [
+    [1, 2],
+    [3, 4],
+    [5, 6]
+  ]
+
+  test('format - string', () => {
     let res
 
     res = format('some %s here', 'thing')
-    console.log(res)
+    expect(res).toBe('some thing here')
+
+    res = format('some %s thing %s', 'long', 'here')
+    expect(res).toBe('some long thing here')
+  })
+
+  test('format - nested array as string', () => {
+    let res
+
+    res = format('many %s %s', 'things', testNestedArray)
+    expect(res).toBe('many things (1, 2), (3, 4), (5, 6)')
   })
 })
-
-// //
-// // Original source from https://github.com/segmentio/pg-escape
-// //
-// var assert = require('assert')
-// var format = require(__dirname + '/../lib')
-// var should = require('should')
-
-// var testDate = new Date(Date.UTC(2012, 11, 14, 13, 6, 43, 152))
-// var testArray = ['abc', 1, true, null, testDate]
-// var testIdentArray = ['abc', 'AbC', 1, true, testDate]
-// var testObject = { a: 1, b: 2 }
-// var testNestedArray = [
-//   [1, 2],
-//   [3, 4],
-//   [5, 6]
-// ]
-
-// describe('format(fmt, ...)', function () {
-//   describe('%s', function () {
-//     it('should format as a simple string', function () {
-//       format('some %s here', 'thing').should.equal('some thing here')
-//       format('some %s thing %s', 'long', 'here').should.equal(
-//         'some long thing here'
-//       )
-//     })
-
-//     it('should format array of array as simple string', function () {
-//       format('many %s %s', 'things', testNestedArray).should.equal(
-//         'many things (1, 2), (3, 4), (5, 6)'
-//       )
-//     })
 
 //     it('should format string using position field', function () {
 //       format('some %1$s', 'thing').should.equal('some thing')
