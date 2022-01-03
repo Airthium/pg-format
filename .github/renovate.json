@@ -1,0 +1,18 @@
+{
+  "baseBranches": ["master"],
+  "extends": ["config:base"],
+  "groupName": "all dependencies",
+  "separateMajorMinor": false,
+  "groupSlug": "all",
+  "packageRules": [
+    {
+      "packagePatterns": ["*"],
+      "groupName": "all dependencies",
+      "groupSlug": "all"
+    }
+  ],
+  "ignoreDeps": ["@babel/parser"],
+  "lockFileMaintenance": {
+    "enabled": false
+  }
+}
