@@ -18,7 +18,8 @@
     "lib": "./lib"
   },
   "scripts": {
-    "test": "jest --config config/jest.config.js"
+    "test": "jest --config config/jest.config.js",
+    "build": "tsc lib/index.js"
   },
   "devDependencies": {
     "@swc/core": "^1.2.126",
