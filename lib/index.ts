@@ -215,7 +215,7 @@ const quoteString = (value?: any): string => {
  * @param parameters Parameters
  * @returns Query
  */
-const format = (fmt: string, ...parameters: string[]): string => {
+const format = (fmt: string, ...parameters: any[]): string => {
   let index = 0
 
   let regex = '%(%|(\\d+\\$)?['

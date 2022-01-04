@@ -1,6 +1,5 @@
 {
   "minify": true,
-  "exclude": [".*.test.ts$"],
   "jsc": {
     "parser": {
       "syntax": "typescript"

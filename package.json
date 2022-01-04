@@ -17,13 +17,14 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --config config/jest.config.js",
+    "test": "jest --config config/jest.config.js --coverage",
     "build": "swc lib/ --out-dir dist"
   },
   "devDependencies": {
     "@swc/cli": "0.1.55",
     "@swc/core": "1.2.126",
     "@swc/jest": "0.2.15",
+    "@types/jest": "27.4.0",
     "jest": "27.4.5"
   }
 }
