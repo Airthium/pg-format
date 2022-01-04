@@ -42,38 +42,6 @@ var sql = format('SELECT %1$L, %1$L, %L', 34, 'test')
 console.log(sql) // SELECT '34', '34', 'test'
 ```
 
-### format.config(cfg)
-
-Changes the global configuration. You can change which letters are used to denote identifiers, literals, and strings in the formatted string. This is useful when the formatted string contains a PL/pgSQL function which calls [PostgreSQL format()](http://www.postgresql.org/docs/9.3/static/functions-string.html#FUNCTIONS-STRING-FORMAT) itself.
-
-```js
-var format = require('pg-format')
-format.config({
-  pattern: {
-    ident: 'V',
-    literal: 'C',
-    string: 't'
-  }
-})
-format.config() // reset to default
-```
-
-### format.ident(input)
-
-Returns the input as an escaped SQL identifier string. `undefined`, `null`, and objects will throw an error.
-
-### format.literal(input)
-
-Returns the input as an escaped SQL literal string. `undefined` and `null` will return `'NULL'`;
-
-### format.string(input)
-
-Returns the input as a simple string. `undefined` and `null` will return an empty string. If an array element is `undefined` or `null`, it will be removed from the output string.
-
-### format.withArray(fmt, array)
-
-Same as `format(fmt, ...)` except parameters are provided in an array rather than as function arguments. This is useful when dynamically creating a SQL query and the number of parameters is unknown or variable.
-
 ## <a name="buffer"></a> Node Buffers
 
 Node buffers can be used for literals (`%L`) and strings (`%s`), and will be converted to [PostgreSQL bytea hex format](http://www.postgresql.org/docs/9.3/static/datatype-binary.html).

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   rootDir: '../',
   testMatch: ['<rootDir>/**/*.test.ts'],
   transform: {

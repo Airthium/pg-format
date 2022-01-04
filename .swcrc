@@ -1,0 +1,13 @@
+{
+  "minify": true,
+  "exclude": [".*.test.ts$"],
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2022"
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}
