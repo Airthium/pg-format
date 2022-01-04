@@ -3,6 +3,7 @@ config
 coverage
 lib
 node_modules
+tests
 .gitignore
 .prettierrc
 .swcrc
