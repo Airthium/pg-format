@@ -1,6 +1,7 @@
 {
-  "baseBranches": ["master"],
   "extends": ["config:base"],
+  "schedule": ["before 9am on Monday"],
+  "baseBranches": ["master"],
   "groupName": "all dependencies",
   "separateMajorMinor": false,
   "groupSlug": "all",
