@@ -1,6 +1,6 @@
 {
   "name": "@airthium/pg-format",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "description": "Node.js implementation of PostgreSQL's format() to safely create dynamic SQL queries.",
   "homepage": "https://github.com/Airthium/pg-format",
