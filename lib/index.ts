@@ -1,4 +1,4 @@
-import reservedMap from './reserved'
+import reservedMap from './reserved.js'
 
 const fmtPattern = {
   ident: 'I',
@@ -215,7 +215,7 @@ const quoteString = (value?: any): string => {
  * @param parameters Parameters
  * @returns Query
  */
-const format = (fmt: string, ...parameters: any[]): string => {
+export const format = (fmt: string, ...parameters: any[]): string => {
   let index = 0
 
   let regex = '%(%|(\\d+\\$)?['
@@ -255,5 +255,3 @@ const format = (fmt: string, ...parameters: any[]): string => {
     }
   })
 }
-
-export default format
