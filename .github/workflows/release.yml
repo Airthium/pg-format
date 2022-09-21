@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -21,8 +21,8 @@ jobs:
       - uses: actions/setup-node@master
         with:
           always-auth: true
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@airthium"
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@airthium'
       - name: Publish Github
         run: yarn publish
         env:
@@ -30,8 +30,8 @@ jobs:
 
       - uses: actions/setup-node@master
         with:
-          registry-url: "https://registry.npmjs.org"
-          scope: "@airthium"
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@airthium'
       - name: Publish NPM
         run: yarn publish --access=public
         env:
