@@ -1,7 +1,7 @@
 {
   "extends": ["config:base"],
   "schedule": ["before 9am on Monday"],
-  "baseBranches": ["master"],
+  "baseBranches": ["hotfix"],
   "groupName": "all dependencies",
   "separateMajorMinor": false,
   "groupSlug": "all",
@@ -12,7 +12,7 @@
       "groupSlug": "all"
     }
   ],
-  "ignoreDeps": ["@babel/parser"],
+  "ignoreDeps": [],
   "lockFileMaintenance": {
     "enabled": false
   }

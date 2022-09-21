@@ -1,0 +1,38 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@master
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn build
+
+      - uses: actions/setup-node@master
+        with:
+          always-auth: true
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@airthium"
+      - name: Publish Github
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@master
+        with:
+          registry-url: "https://registry.npmjs.org"
+          scope: "@airthium"
+      - name: Publish NPM
+        run: yarn publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

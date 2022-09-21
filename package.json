@@ -17,8 +17,9 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "lint": "prettier -l '**/*.{js,ts,json,md}'",
-    "test": "jest --config config/jest.config.js --coverage",
+    "depcheck": "depcheck . --ignores @types/*,@swc/jest",
+    "prettier": "prettier -l '**/*.{js,ts,json,md}'",
+    "test": "jest --silent --coverage",
     "build": "swc lib/ --out-dir dist"
   },
   "devDependencies": {
@@ -26,8 +27,8 @@
     "@swc/core": "1.2.126",
     "@swc/jest": "0.2.15",
     "@types/jest": "27.4.0",
+    "depcheck": "1.4.3",
     "jest": "27.4.5",
     "prettier": "2.5.1"
-  },
-  "packageManager": "yarn@3.2.0"
+  }
 }

@@ -1,0 +1,25 @@
+name: Check
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@master
+      - name: Install
+        run: yarn install
+      - name: Depcheck
+        run: yarn depcheck
+      - name: Lint
+        run: yarn prettier
+      - name: Test
+        run: yarn test
+      - name: Build
+        run: yarn build

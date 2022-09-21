@@ -1,5 +1,4 @@
 .github
-.yarn
 config
 coverage
 lib
@@ -9,4 +8,5 @@ tests
 .prettierignore
 .prettierrc
 .swcrc
+jest.config.js
 yarn.lock
