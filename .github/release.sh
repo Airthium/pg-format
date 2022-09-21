@@ -45,7 +45,7 @@ merge () {
     git merge dev
     git push
 
-    git checkout main
+    git checkout master
     git merge dev
     git push
 }
