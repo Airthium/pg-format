@@ -7,9 +7,6 @@
     "type": "git",
     "url": "git://github.com/Airthium/pg-format.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "license": "MIT",
   "author": {
     "name": "Airthium",
