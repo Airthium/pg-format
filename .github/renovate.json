@@ -15,5 +15,6 @@
   "ignoreDeps": [],
   "lockFileMaintenance": {
     "enabled": false
-  }
+  },
+  "includeForks": true
 }
