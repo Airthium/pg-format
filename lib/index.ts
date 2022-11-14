@@ -1,4 +1,4 @@
-import reservedMap from './reserved'
+import reservedMap from './reserved.js'
 
 const fmtPattern = {
   ident: 'I',
