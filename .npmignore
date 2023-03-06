@@ -1,12 +1,13 @@
 .github
-config
 coverage
 lib
 node_modules
-tests
+test
 .gitignore
 .prettierignore
 .prettierrc
 .swcrc
 jest.config.js
+renovate.json
+sonar-project.properties
 yarn.lock
