@@ -38,19 +38,21 @@ release() {
 
     # package.json version
     PACKAGE_VERSION=$(cat package.json | jq -r '.version')
-    echo $PACKAGE_VERSION
     NUMS=(${PACKAGE_VERSION//./ })
 
     # Increse minor
     ((NUMS[2]++))
     PACKAGE_NEW_VERSION=${NUMS[0]}.${NUMS[1]}.${NUMS[2]}
-    echo $PACKAGE_NEW_VERSION
 
     # New package.json version
-    jq ".version=\"${PACKAGE_NEW_VERSION}\"" package.json >package.json
+    jq ".version=\"${PACKAGE_NEW_VERSION}\"" package.json >/tmp/package.json
+    mv /tmp/package.json package.json
 
     # release
     ./.github/release.sh $PACKAGE_NEW_VERSION
 }
 
+checkBranch
+merge
+check
 release
