@@ -1,8 +1,5 @@
 name: Check
-on:
-  push:
-    branches:
-      - dev
+on: push
 
 jobs:
   build:
