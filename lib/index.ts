@@ -71,7 +71,7 @@ const quoteIdent = (value?: any): string => {
   } else if (value instanceof Buffer) {
     throw new Error('SQL identifier cannot be a buffer')
   } else if (Array.isArray(value) === true) {
-    const temp = []
+    const temp: string[] = []
     for (const val of value) {
       if (Array.isArray(val) === true) {
         throw new Error(
@@ -116,8 +116,8 @@ const quoteIdent = (value?: any): string => {
  * @returns Quoted literal
  */
 const quoteLiteral = (value?: any): string => {
-  let literal = null
-  let explicitCast = null
+  let literal: string = ''
+  let explicitCast: string = ''
 
   if (value === undefined || value === null) {
     return 'NULL'
@@ -130,7 +130,7 @@ const quoteLiteral = (value?: any): string => {
   } else if (value instanceof Buffer) {
     return "E'\\\\x" + value.toString('hex') + "'"
   } else if (Array.isArray(value) === true) {
-    const temp = []
+    const temp: string[] = []
     for (let index = 0; index < value.length; index++) {
       const val = value[index]
       if (Array.isArray(val) === true) {
@@ -190,7 +190,7 @@ const quoteString = (value?: any): string => {
   } else if (value instanceof Buffer) {
     return '\\x' + value.toString('hex')
   } else if (Array.isArray(value) === true) {
-    const temp = []
+    const temp: string[] = []
     for (let index = 0; index < value.length; index++) {
       const val = value[index]
       if (val !== null && val !== undefined) {
@@ -225,7 +225,7 @@ const format = (fmt: string, ...parameters: any[]): string => {
   regex += '])'
   const re = new RegExp(regex, 'g')
 
-  return fmt.replace(re, (_, type) => {
+  return fmt.replace(re, (_, type): string => {
     if (type === '%') {
       return '%'
     }
@@ -250,7 +250,7 @@ const format = (fmt: string, ...parameters: any[]): string => {
       return quoteIdent(parameters[position])
     } else if (type === fmtPattern.literal) {
       return quoteLiteral(parameters[position])
-    } else if (type === fmtPattern.string) {
+    } /*if (type === fmtPattern.string)*/ else {
       return quoteString(parameters[position])
     }
   })

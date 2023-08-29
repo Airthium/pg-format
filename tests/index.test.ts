@@ -1,4 +1,5 @@
 import format from '../lib'
+import reserved from '../lib/reserved'
 
 describe('format', () => {
   const testNestedArray = [
@@ -9,6 +10,27 @@ describe('format', () => {
 
   test('format - string', () => {
     let res: string
+
+    res = format('some %s', undefined)
+    expect(res).toBe('some ')
+
+    res = format('some %s', false)
+    expect(res).toBe('some f')
+
+    res = format('some %s', true)
+    expect(res).toBe('some t')
+
+    res = format('some %s', new Date(0))
+    expect(res).toBe('some 1970-01-01 00:00:00.000+00')
+
+    res = format('some %s', Buffer.from('string'))
+    expect(res).toBe('some \\x737472696e67')
+
+    res = format('some %s', ['a'])
+    expect(res).toBe('some a')
+
+    res = format('some %s', {})
+    expect(res).toBe('some {}')
 
     res = format('some %s here', 'thing')
     expect(res).toBe('some thing here')
@@ -66,6 +88,36 @@ describe('format', () => {
   test('format - %I', () => {
     let res: string
 
+    expect(() => format('some %I', undefined)).toThrowError(
+      'SQL identifier cannot be null or undefined'
+    )
+
+    res = format('some %I', false)
+    expect(res).toBe('some "f"')
+
+    res = format('some %I', Object.keys(reserved)[0])
+    expect(res).toBe('some "AES128"')
+
+    res = format('some %I', true)
+    expect(res).toBe('some "t"')
+
+    res = format('some %I', new Date(0))
+    expect(res).toBe('some "1970-01-01 00:00:00.000+00"')
+
+    expect(() => format('some %I', Buffer.from('string'))).toThrowError(
+      'SQL identifier cannot be a buffer'
+    )
+
+    res = format('some %I', ['a'])
+    expect(res).toBe('some a')
+
+    expect(() => format('some %I', {})).toThrowError(
+      'SQL identifier cannot be an object'
+    )
+
+    res = format('some %I', '"foo/bar/baz"')
+    expect(res).toBe('some """foo/bar/baz"""')
+
     res = format('some %I', 'foo/bar/baz')
     expect(res).toBe('some "foo/bar/baz"')
 
@@ -101,6 +153,33 @@ describe('format', () => {
 
   test('format - %L', () => {
     let res: string
+
+    res = format('some %L', undefined)
+    expect(res).toBe('some NULL')
+
+    res = format('some %L', false)
+    expect(res).toBe("some 'f'")
+
+    res = format('some %L', true)
+    expect(res).toBe("some 't'")
+
+    res = format('some %L', new Date(0))
+    expect(res).toBe("some '1970-01-01 00:00:00.000+00'")
+
+    res = format('some %L', Buffer.from('string'))
+    expect(res).toBe("some E'\\\\x737472696e67'")
+
+    res = format('some %L', ['a', true])
+    expect(res).toBe("some 'a','t'")
+
+    res = format('some %L', {})
+    expect(res).toBe("some '{}'::jsonb")
+
+    res = format('some %L', "'foo/bar/baz'")
+    expect(res).toBe("some '''foo/bar/baz'''")
+
+    res = format('some %L', 'foo\\bar\\baz')
+    expect(res).toBe("some E'foo\\\\bar\\\\baz'")
 
     res = format('%L', "Tobi's")
     expect(res).toBe("'Tobi''s'")

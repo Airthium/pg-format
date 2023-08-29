@@ -1,3 +1,5 @@
+/** @type {import('jest').Config} */
+
 const jestConfig = {
   rootDir: '.',
   transformIgnorePatterns: [],
