@@ -26,6 +26,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@airthium'
       - name: Publish Github
+        continue-on-error: true
         run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
