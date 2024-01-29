@@ -1,6 +1,6 @@
 {
   "name": "@airthium/pg-format",
-  "version": "2.0.50",
+  "version": "2.0.51",
   "description": "Node.js implementation of PostgreSQL's format() to safely create dynamic SQL queries.",
   "homepage": "https://github.com/Airthium/pg-format",
   "type": "module",
@@ -13,12 +13,12 @@
     "name": "Airthium",
     "url": "https://github.com/orgs/Airthium/people"
   },
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "depcheck": "depcheck . --ignores @types/*,@swc/jest",
     "prettier": "prettier -l '**/*.{js,ts,json,md}'",
     "test": "jest --silent --coverage",
-    "build": "swc lib/ --out-dir dist"
+    "build": "swc lib/ --out-dir dist --strip-leading-paths"
   },
   "devDependencies": {
     "@swc/cli": "0.3.5",
