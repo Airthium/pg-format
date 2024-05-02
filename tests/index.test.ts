@@ -1,5 +1,15 @@
-import format from '../lib'
+import format, { string as formatString, ident, literal } from '../lib'
 import reserved from '../lib/reserved'
+
+const testDate = new Date(Date.UTC(2012, 11, 14, 13, 6, 43, 152))
+const testArray = ['abc', 1, true, null, testDate]
+const testIdentArray = ['abc', 'AbC', 1, true, testDate]
+const testObject = { a: 1, b: 2 }
+const testNestedArray = [
+  [1, 2],
+  [3, 4],
+  [5, 6]
+]
 
 describe('format', () => {
   const testNestedArray = [
@@ -209,5 +219,107 @@ describe('format', () => {
 
     // Error too few arguments
     expect(() => format('some %2$L', 'thing')).toThrowError()
+  })
+})
+
+describe('formatString(val)', () => {
+  it('should coerce to a string', () => {
+    expect(formatString(undefined)).toBe('')
+    expect(formatString(null)).toBe('')
+    expect(formatString(true)).toBe('t')
+    expect(formatString(false)).toBe('f')
+    expect(formatString(0)).toBe('0')
+    expect(formatString(15)).toBe('15')
+    expect(formatString(-15)).toBe('-15')
+    expect(formatString(45.13)).toBe('45.13')
+    expect(formatString(-45.13)).toBe('-45.13')
+    expect(formatString('something')).toBe('something')
+    expect(formatString(testArray)).toBe('abc,1,t,2012-12-14 13:06:43.152+00')
+    expect(formatString(testNestedArray)).toBe('(1, 2), (3, 4), (5, 6)')
+    expect(formatString(testDate)).toBe('2012-12-14 13:06:43.152+00')
+    expect(formatString(testObject)).toBe('{"a":1,"b":2}')
+  })
+})
+
+describe('ident(val)', () => {
+  it('should quote when necessary', () => {
+    expect(ident('foo')).toBe('foo')
+    expect(ident('_foo')).toBe('_foo')
+    expect(ident('_foo_bar$baz')).toBe('_foo_bar$baz')
+    expect(ident('test.some.stuff')).toBe('"test.some.stuff"')
+    expect(ident('test."some".stuff')).toBe('"test.""some"".stuff"')
+  })
+
+  it('should quote reserved words', () => {
+    expect(ident('desc')).toBe('"desc"')
+    expect(ident('join')).toBe('"join"')
+    expect(ident('cross')).toBe('"cross"')
+  })
+
+  it('should quote', () => {
+    expect(ident(true)).toBe('"t"')
+    expect(ident(false)).toBe('"f"')
+    expect(ident(0)).toBe('"0"')
+    expect(ident(15)).toBe('"15"')
+    expect(ident(-15)).toBe('"-15"')
+    expect(ident(45.13)).toBe('"45.13"')
+    expect(ident(-45.13)).toBe('"-45.13"')
+    expect(ident(testIdentArray)).toBe(
+      'abc,"AbC","1","t","2012-12-14 13:06:43.152+00"'
+    )
+    expect(() => {
+      ident(testNestedArray)
+    }).toThrow(Error)
+    expect(ident(testDate)).toBe('"2012-12-14 13:06:43.152+00"')
+  })
+
+  it('should throw when undefined', () => {
+    expect(() => {
+      ident(undefined)
+    }).toThrow('SQL identifier cannot be null or undefined')
+  })
+
+  it('should throw when null', () => {
+    expect(() => {
+      ident(null)
+    }).toThrow('SQL identifier cannot be null or undefined')
+  })
+
+  it('should throw when object', () => {
+    expect(() => {
+      ident({})
+    }).toThrow('SQL identifier cannot be an object')
+  })
+})
+
+describe('literal(val)', () => {
+  it('should return NULL for null', () => {
+    expect(literal(null)).toBe('NULL')
+    expect(literal(undefined)).toBe('NULL')
+  })
+
+  it('should quote', () => {
+    expect(literal(true)).toBe("'t'")
+    expect(literal(false)).toBe("'f'")
+    expect(literal(0)).toBe("'0'")
+    expect(literal(15)).toBe("'15'")
+    expect(literal(-15)).toBe("'-15'")
+    expect(literal(45.13)).toBe("'45.13'")
+    expect(literal(-45.13)).toBe("'-45.13'")
+    expect(literal('hello world')).toBe("'hello world'")
+    expect(literal(testArray)).toBe(
+      "'abc','1','t',NULL,'2012-12-14 13:06:43.152+00'"
+    )
+    expect(literal(testNestedArray)).toBe("('1', '2'), ('3', '4'), ('5', '6')")
+    expect(literal(testDate)).toBe("'2012-12-14 13:06:43.152+00'")
+    expect(literal(testObject)).toBe('\'{"a":1,"b":2}\'::jsonb')
+  })
+
+  it('should format quotes', () => {
+    expect(literal("O'Reilly")).toBe("'O''Reilly'")
+  })
+
+  it('should format backslashes', () => {
+    expect(literal('\\whoop\\')).toBe("E'\\\\whoop\\\\'")
   })
 })
