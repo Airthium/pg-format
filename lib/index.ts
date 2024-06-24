@@ -256,4 +256,9 @@ const format = (fmt: string, ...parameters: any[]): string => {
   })
 }
 
-export default format
+export {
+  format as default,
+  quoteIdent as ident,
+  quoteLiteral as literal,
+  quoteString as string
+}
