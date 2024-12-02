@@ -21,12 +21,12 @@
     "build": "swc lib/ --out-dir dist --strip-leading-paths"
   },
   "devDependencies": {
-    "@swc/cli": "0.5.0",
-    "@swc/core": "1.9.2",
+    "@swc/cli": "0.5.2",
+    "@swc/core": "1.9.3",
     "@swc/jest": "0.2.37",
     "@types/jest": "29.5.14",
     "depcheck": "1.4.7",
     "jest": "29.7.0",
-    "prettier": "3.3.3"
+    "prettier": "3.4.1"
   }
 }
