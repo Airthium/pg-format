@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@master
         with:
-          node-version: '18.x'
+          node-version: '22.x'
       - name: Install
         run: yarn install
       - name: Depcheck
