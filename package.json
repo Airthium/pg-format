@@ -21,8 +21,8 @@
     "build": "swc lib/ --out-dir dist --strip-leading-paths"
   },
   "devDependencies": {
-    "@swc/cli": "0.7.3",
-    "@swc/core": "1.11.24",
+    "@swc/cli": "0.7.7",
+    "@swc/core": "1.11.31",
     "@swc/jest": "0.2.38",
     "@types/jest": "29.5.14",
     "depcheck": "1.4.7",
