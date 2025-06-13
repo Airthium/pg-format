@@ -1,3 +1,4 @@
+.yarn/install-state.gz
 coverage
 dist
 node_modules

@@ -71,10 +71,10 @@ describe('format', () => {
     expect(res).toBe('some thing again some thing')
 
     // Error using position 0
-    expect(() => format('some %0$s', 'thing')).toThrowError()
+    expect(() => format('some %0$s', 'thing')).toThrow()
 
     // Error with too few arguments
-    expect(() => format('some %2$s', 'thing')).toThrowError()
+    expect(() => format('some %2$s', 'thing')).toThrow()
   })
 
   test('format - nested array as string', () => {
@@ -98,7 +98,7 @@ describe('format', () => {
   test('format - %I', () => {
     let res: string
 
-    expect(() => format('some %I', undefined)).toThrowError(
+    expect(() => format('some %I', undefined)).toThrow(
       'SQL identifier cannot be null or undefined'
     )
 
@@ -114,14 +114,14 @@ describe('format', () => {
     res = format('some %I', new Date(0))
     expect(res).toBe('some "1970-01-01 00:00:00.000+00"')
 
-    expect(() => format('some %I', Buffer.from('string'))).toThrowError(
+    expect(() => format('some %I', Buffer.from('string'))).toThrow(
       'SQL identifier cannot be a buffer'
     )
 
     res = format('some %I', ['a'])
     expect(res).toBe('some a')
 
-    expect(() => format('some %I', {})).toThrowError(
+    expect(() => format('some %I', {})).toThrow(
       'SQL identifier cannot be an object'
     )
 
@@ -132,9 +132,7 @@ describe('format', () => {
     expect(res).toBe('some "foo/bar/baz"')
 
     // Error array of array as an identifier
-    expect(() =>
-      format('many %I %I', 'foo/bar/baz', testNestedArray)
-    ).toThrowError()
+    expect(() => format('many %I %I', 'foo/bar/baz', testNestedArray)).toThrow()
 
     res = format('some %1$I', 'thing')
     expect(res).toBe('some thing')
@@ -155,10 +153,10 @@ describe('format', () => {
     expect(res).toBe('some thing again huh thing')
 
     // Error poistion 0
-    expect(() => format('some %0$I', 'thing')).toThrowError()
+    expect(() => format('some %0$I', 'thing')).toThrow()
 
     // Error too few arguments
-    expect(() => format('some %2$I', 'thing')).toThrowError()
+    expect(() => format('some %2$I', 'thing')).toThrow()
   })
 
   test('format - %L', () => {
@@ -215,16 +213,16 @@ describe('format', () => {
     expect(res).toBe("some 'thing' 'again' 'some' 'thing'")
 
     // Error position 0
-    expect(() => format('some %0$L', 'thing')).toThrowError()
+    expect(() => format('some %0$L', 'thing')).toThrow()
 
     // Error too few arguments
-    expect(() => format('some %2$L', 'thing')).toThrowError()
+    expect(() => format('some %2$L', 'thing')).toThrow()
   })
 })
 
 describe('formatString(val)', () => {
   it('should coerce to a string', () => {
-    expect(formatString(undefined)).toBe('')
+    expect(formatString()).toBe('')
     expect(formatString(null)).toBe('')
     expect(formatString(true)).toBe('t')
     expect(formatString(false)).toBe('f')
@@ -275,7 +273,7 @@ describe('ident(val)', () => {
 
   it('should throw when undefined', () => {
     expect(() => {
-      ident(undefined)
+      ident()
     }).toThrow('SQL identifier cannot be null or undefined')
   })
 
@@ -295,7 +293,7 @@ describe('ident(val)', () => {
 describe('literal(val)', () => {
   it('should return NULL for null', () => {
     expect(literal(null)).toBe('NULL')
-    expect(literal(undefined)).toBe('NULL')
+    expect(literal()).toBe('NULL')
   })
 
   it('should quote', () => {
