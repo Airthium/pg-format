@@ -31,7 +31,8 @@ jobs:
         continue-on-error: true
         run: yarn npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          YARN_NPM_PUBLISH_REGISTRY: 'https://npm.pkg.github.com'
 
       - uses: actions/setup-node@master
         with:
@@ -40,5 +41,4 @@ jobs:
       - name: Publish NPM
         run: yarn npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
