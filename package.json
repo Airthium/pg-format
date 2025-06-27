@@ -22,12 +22,12 @@
   },
   "devDependencies": {
     "@swc/cli": "0.7.7",
-    "@swc/core": "1.12.1",
+    "@swc/core": "1.12.7",
     "@swc/jest": "0.2.38",
-    "@types/jest": "29.5.14",
+    "@types/jest": "30.0.0",
     "depcheck": "1.4.7",
-    "jest": "30.0.0",
-    "prettier": "3.5.3"
+    "jest": "30.0.3",
+    "prettier": "3.6.2"
   },
   "packageManager": "yarn@4.9.2"
 }
