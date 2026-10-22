@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@master
         with:
-          node-version: '22.x'
+          node-version: '24.x'
       - name: Corepack
         run: corepack enable
       - name: Install
